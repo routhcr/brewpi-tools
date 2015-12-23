@@ -149,8 +149,20 @@ else
   fi
 fi
 
+############
+### Check the webserver directory 
+############
+
+webPath='DocumentRoot ' read VERSION VERSION_MINOR < /etc/apache2/sites-available/000-default.conf | grep DocumentRoot
+echo "Default Webserver: $webPath"
+
 echo -e "\nAny data in the following location will be ERASED during install!"
-read -p "What should be the path to your web directory for brewpi? [/var/www]: " webPath
+read -p "What should be the path to your web directory for brewpi? [$webPath]: " webPathInput
+
+if test "$webPathInput" != ""; then
+  webPath = webPathInput
+fi
+
 if [ -z "$webPath" ]; then
   webPath="/var/www"
 else
